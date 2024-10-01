@@ -2,6 +2,8 @@ const express = require("express");
 const app = express();
 const cors = require("cors");
 const { db } = require("./firebase");
+
+const { parse } = require("url");
 const {
   collection,
   getDocs,
