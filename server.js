@@ -1,6 +1,9 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
+const { db } = require("./firebase");
+const { collection, getDocs } = require("firebase/firestore");
+const PORT = 9000;
 
 const corsOrigin = {
   origin: ["http://localhost:3000"],
@@ -9,9 +12,22 @@ const corsOrigin = {
 app.use(cors(corsOrigin));
 app.use(express.json());
 
-// app.get("/api", (req, res) => {
-//   res.json({ fruits: ["apple", "orange", "banana"] });
-// });
+app.get("/api/tasks", async (req, res) => {
+  try {
+    const tasksCollection = collection(db, "tasks");
+    const tasksSnapshot = await getDocs(tasksCollection);
+    const tasksList = tasksSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+    console.log("Data fetched successfully", tasksList);
+
+    res.json(tasksList);
+  } catch (error) {
+    console.error("Error fetching tasks: ", error.message);
+    res.status(500).send("Internal Server Error");
+  }
+});
 
 // app.get("/search", (req, res) => {
 //   /*
@@ -65,6 +81,6 @@ app.use(express.json());
 //   console.log(req.url); // Outputs: /check
 // });
 
-app.listen(8080, () => {
-  console.log("server is running on port", 8080);
+app.listen(PORT, () => {
+  console.log("server is running on port", PORT);
 });
