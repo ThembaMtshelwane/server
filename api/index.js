@@ -131,7 +131,7 @@ app.delete("/api/tasks/:id", async (req, res) => {
 // app.get("/check", (req, res) => {
 //   console.log(req.url); // Outputs: /check
 // });
-
-app.listen(PORT, () => {
-  console.log("server is running on port", PORT);
-});
+module.exports = (req, res) => {
+  const parsedUrl = parse(req.url, true);
+  app(req, res, parsedUrl);
+};
