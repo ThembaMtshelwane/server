@@ -12,14 +12,12 @@ const {
 } = require("firebase/firestore");
 const PORT = 9000;
 
-const corsOrigin = {
-  origin: [
-    "http://localhost:3000",
-    "https://client-seven-black-21.vercel.app/",
-  ],
+const corsOptions = {
+  origin: ["http://localhost:3000", "https://client-seven-black-21.vercel.app"], // Allow localhost for dev and your Vercel frontend
+  methods: ["GET", "POST", "PUT", "DELETE"], // Specify which methods are allowed
 };
 
-app.use(cors(corsOrigin));
+app.use(cors(corsOptions));
 app.use(express.json());
 
 app.get("/api/tasks", async (req, res) => {
