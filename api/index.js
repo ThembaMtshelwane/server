@@ -1,8 +1,7 @@
 const express = require("express");
 const app = express();
 const cors = require("cors");
-const { db } = require("./firebase");
-const { parse } = require("url");
+const { db } = require("./firebaseConfig");
 const {
   collection,
   getDocs,
@@ -82,6 +81,5 @@ app.delete("/api/tasks/:id", async (req, res) => {
 });
 
 module.exports = (req, res) => {
-  const parsedUrl = parse(req.url, true);
-  app(req, res, parsedUrl);
+  app(req, res);
 };
